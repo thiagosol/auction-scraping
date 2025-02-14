@@ -13,7 +13,7 @@ from pyppeteer import launch
 from syncer import sync
 import asyncio
 
-executablePath = "/usr/bin/chromium-browser"
+executablePath = "/usr/bin/chromium"
 userAgent = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
              'Chrome/91.0.4472.124 Safari/537.36')
 

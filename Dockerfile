@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     vim \
+    openvpn \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -42,7 +43,11 @@ COPY . .
 COPY cronjob /etc/cron.d/auction_scraping
 RUN chmod 0644 /etc/cron.d/auction_scraping && crontab /etc/cron.d/auction_scraping
 
-ENV CHROMIUM_PATH="/usr/bin/chromium-browser"
+ENV CHROMIUM_PATH="/usr/bin/chromium"
+
+RUN mkdir -p /etc/openvpn
+COPY openvpn.sh /etc/openvpn/openvpn.sh
+RUN chmod +x /etc/openvpn/openvpn.sh
 
 RUN chmod +x /app/run.sh
 

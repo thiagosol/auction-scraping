@@ -9,6 +9,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./logs:/var/log
+      - /opt/auto-deploy/vpn/brazil/credentials.ovpn:/etc/openvpn/credentials.ovpn
+    cap_add:
+      - NET_ADMIN
     deploy:
       resources:
         limits:
