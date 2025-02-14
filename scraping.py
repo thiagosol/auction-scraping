@@ -9,13 +9,11 @@ from decimal import Decimal
 from datetime import datetime
 import pytz
 import traceback
-from pyppeteer import launch, chromium_downloader
+from pyppeteer import launch
 from syncer import sync
 import asyncio
 
-from pyppeteer import chromium_downloader
-
-executablePath = chromium_downloader.chromiumExecutable().as_posix() #None in Windows #'/usr/bin/chromium-browser'
+executablePath = "/usr/bin/chromium-browser"
 userAgent = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
              'Chrome/91.0.4472.124 Safari/537.36')
 

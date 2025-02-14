@@ -2,6 +2,8 @@ FROM python:3.9-slim
 
 RUN apt-get update && apt-get install -y \
     libpq-dev gcc \
+    chromium \
+    chromium-driver \
     libnss3 \
     libatk1.0-0 \
     libx11-xcb1 \
@@ -19,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     cron \
     wget \
     unzip \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -36,10 +39,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python -c "from pyppeteer import chromium_downloader; chromium_downloader.download_chromium()"
-
 COPY cronjob /etc/cron.d/auction_scraping
 RUN chmod 0644 /etc/cron.d/auction_scraping && crontab /etc/cron.d/auction_scraping
+
+ENV CHROMIUM_PATH="/usr/bin/chromium-browser"
 
 RUN chmod +x /app/run.sh
 
