@@ -25,6 +25,10 @@ RUN apt-get update && apt-get install -y \
     openvpn \
     curl \
     iproute2 \
+    libxml2 \
+    libxslt1.1 \
+    libxml2-dev \
+    libxslt-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
