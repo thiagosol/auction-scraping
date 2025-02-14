@@ -1,26 +1,19 @@
 #!/bin/bash
 
-echo "🔄 Iniciando conexão VPN..."
+echo "🔄 Verificando conexão VPN..."
 
-openvpn --config /etc/openvpn/credentials.ovpn --auth-user-pass /etc/openvpn/auth.txt --daemon
+if ip a show tun0 up > /dev/null 2>&1; then
+    echo "✅ VPN já está conectada!"
+else
+    echo "🔄 Iniciando VPN..."
 
-VPN_CONNECTED=0
-for i in {1..10}; do
-    sleep 5  # Espera 5 segundos antes de testar a conexão
-    echo "🔍 Verificando conexão VPN... (tentativa $i/10)"
-    
-    # Testa se o IP externo mudou (indicando que a VPN conectou)
-    VPN_IP=$(curl -s --max-time 5 ifconfig.me)
-    if [[ -n "$VPN_IP" ]]; then
-        echo "✅ VPN conectada com IP: $VPN_IP"
-        VPN_CONNECTED=1
-        break
-    fi
-done
+    openvpn --config /etc/openvpn/credentials.ovpn --auth-user-pass /etc/openvpn/auth.txt --log /var/log/openvpn.log --verb 4 &
 
-if [[ $VPN_CONNECTED -eq 0 ]]; then
-    echo "❌ Falha ao conectar à VPN!"
-    exit 1
+    sleep 5
+    while ! ip a show tun0 up > /dev/null 2>&1; do
+        echo "⏳ Aguardando VPN conectar..."
+        sleep 2
+    done
+
+    echo "✅ VPN conectada!"
 fi
-
-exec "$@"
