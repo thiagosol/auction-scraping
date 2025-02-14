@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  auction-scraping:
+    image: auction-scraping
+    pull_policy: never
+    restart: always
+    container_name: auction-scraping
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./logs:/var/log
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+
+networks:
+  default:
+    external:
+      name: external-sol-apis
