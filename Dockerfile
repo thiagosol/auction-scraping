@@ -61,5 +61,6 @@ COPY openvpn.sh /etc/openvpn/openvpn.sh
 RUN chmod +x /etc/openvpn/openvpn.sh
 
 RUN chmod +x /app/run.sh
+RUN chmod +x /app/manually-run.sh
 
 CMD ["cron", "-f"]
