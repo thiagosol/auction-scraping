@@ -47,6 +47,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 COPY cronjob /etc/cron.d/auction_scraping
+
 RUN sed -i "s|DB_USER=.*|DB_USER=${DB_USER}|" /etc/cron.d/auction_scraping && \
     sed -i "s|DB_PASS=.*|DB_PASS=${DB_PASS}|" /etc/cron.d/auction_scraping && \
     sed -i "s|DB_HOST=.*|DB_HOST=${DB_HOST}|" /etc/cron.d/auction_scraping
