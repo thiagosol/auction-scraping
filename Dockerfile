@@ -33,13 +33,13 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-ARG DB_USER
-ARG DB_PASS
-ARG DB_HOST
+ARG DB_POSTGRES_USER
+ARG DB_POSTGRES_PASS
+ARG SERVER_IP
 
-ENV DB_USER=$DB_USER
-ENV DB_PASS=$DB_PASS
-ENV DB_HOST=$DB_HOST
+ENV DB_POSTGRES_USER=$DB_POSTGRES_USER
+ENV DB_POSTGRES_PASS=$DB_POSTGRES_PASS
+ENV SERVER_IP=$SERVER_IP
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -48,9 +48,9 @@ COPY . .
 
 COPY cronjob /etc/cron.d/auction_scraping
 
-RUN sed -i "s|DB_USER=.*|DB_USER=${DB_USER}|" /etc/cron.d/auction_scraping && \
-    sed -i "s|DB_PASS=.*|DB_PASS=${DB_PASS}|" /etc/cron.d/auction_scraping && \
-    sed -i "s|DB_HOST=.*|DB_HOST=${DB_HOST}|" /etc/cron.d/auction_scraping
+RUN sed -i "s|DB_USER=.*|DB_USER=${DB_POSTGRES_USER}|" /etc/cron.d/auction_scraping && \
+    sed -i "s|DB_PASS=.*|DB_PASS=${DB_POSTGRES_PASS}|" /etc/cron.d/auction_scraping && \
+    sed -i "s|DB_HOST=.*|DB_HOST=${SERVER_IP}|" /etc/cron.d/auction_scraping
 
 RUN chmod 0644 /etc/cron.d/auction_scraping && crontab /etc/cron.d/auction_scraping
 
